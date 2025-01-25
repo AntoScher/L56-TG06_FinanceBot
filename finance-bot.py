@@ -21,11 +21,12 @@ from dotenv import load_dotenv
 # Загрузка переменных окружения из файла .env
 load_dotenv()
 API_TOKEN = os.getenv('TELEGRAM_API_TOKEN')
+#API_KEY = os.getenv('API_KEY')
 
 # Проверка, что переменные окружения корректно загружены
-if not API_TOKEN  or not YOUTUBE_API_KEY:
-    raise ValueError("API_TOKEN должен быть заданы в файле .env")
-
+#if not API_TOKEN or not API_KEY :
+if not API_TOKEN:
+    raise ValueError("API_TOKEN и API_KEY должны быть заданы в файле .env")
 # Настройка логирования
 logging.basicConfig(level=logging.INFO)
 
@@ -90,7 +91,8 @@ async def registration(message: Message):
 
 @dp.message(F.text == "Курс валют")
 async def exchange_rates(message: Message):
-    url = "https://v6.exchangerate-api.com/v6/09edf8b2bb246e1f801cbfba/latest/USD"
+    #url = "https://api.exchangerate-api.com/v6/latest/USD"
+    url = "https://api.exchangerate-api.com/v6/{API_KEY}/latest/USD"
     try:
         response = requests.get(url)
         data = response.json()
